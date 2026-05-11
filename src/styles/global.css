@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --font-sans: system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --bg: #ffffff;
+  --fg: #111827;
+}
+
+.dark {
+  --bg: #030712;
+  --fg: #f3f4f6;
+}
+
+body {
+  color: var(--fg);
+  background: var(--bg);
+}
+
+article h2, article h3 {
+  color: var(--fg);
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+article p {
+  color: var(--fg);
+  line-height: 1.75;
+  margin-bottom: 1em;
+}
+
+article code {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.875em;
+  background: #f3f4f6;
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+}
+
+.dark article code {
+  background: #1f2937;
+}
+
+article pre {
+  background: #f3f4f6;
+  padding: 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+
+.dark article pre {
+  background: #1f2937;
+}
+
+article ul, article ol {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+  color: var(--fg);
+}
+
+article li {
+  margin-bottom: 0.25em;
+}
+
+article a {
+  color: #f97316;
+}
+
+article a:hover {
+  color: #ea580c;
+}

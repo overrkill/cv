@@ -1,0 +1,21 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProjectBox from "../components/ProjectBox.astro";
+import Footer from "../components/Footer.astro";
+import { getCollection } from "astro:content";
+
+const projects = await getCollection("projects");
+projects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout>
+  <section class="pb-8 sm:pb-12">
+    <h1 class="text-2xl font-semibold text-foreground mb-8">Projects</h1>
+    <div>
+      {projects.map(p => (
+        <ProjectBox title={p.data.title} description={p.data.description} tags={p.data.tags} github={p.data.github} live={p.data.live} />
+      ))}
+    </div>
+  </section>
+  <Footer />
+</Layout>

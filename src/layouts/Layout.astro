@@ -1,0 +1,38 @@
+---
+import "../styles/global.css";
+import Navbar from "../components/Navbar.astro";
+import {ClientRouter} from "astro:transitions";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Abhishek Kale — Full-Stack Engineer</title>
+    <meta name="description" content="Full-stack engineer building cross-platform apps and robust backends." />
+    <style>html{scrollbar-gutter:stable}</style>
+    <ClientRouter />
+    <script is:inline>
+      const t = localStorage.getItem("theme");
+      if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+    <script>
+      document.addEventListener("astro:before-swap", (e) => {
+        const t = localStorage.getItem("theme");
+        if (t === "dark" || (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+          e.newDocument.documentElement.classList.add("dark");
+        } else {
+          e.newDocument.documentElement.classList.remove("dark");
+        }
+      });
+    </script>
+  </head>
+  <body class="bg-background text-foreground font-sans antialiased transition-colors">
+    <Navbar />
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 pt-8 sm:pt-12">
+      <slot />
+    </main>
+  </body>
+</html>
