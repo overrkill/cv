@@ -1,5 +1,5 @@
 {
-  "name": "portfolio-abhi",
+  "name": "cv",
   "compatibility_date": "2026-05-11", // Update to the day you deploy
   "assets": {
     "directory": "./dist",
