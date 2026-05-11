@@ -1,0 +1,59 @@
+---
+title: "A Demo Walkthrough of This Very Blog"
+description: "How this blog was built — Astro 6, MDX, content collections, and Tailwind v4. A technical breakdown for anyone curious about the stack."
+date: 2026-05-11
+---
+
+## Stack At a Glance
+
+This blog is built with:
+
+- **Astro 6** — static site generation, zero JS by default
+- **MDX** — Markdown with JSX components
+- **Content collections** (via `astro/loaders`) — typed frontmatter with zod schema
+- **Tailwind v4** — utility-first CSS with `@theme` tokens
+
+## Content Layer Setup
+
+Posts live in `src/content/blog/` as `.mdx` files. The content config at `src/content.config.ts` defines the collection:
+
+```ts
+import { defineCollection } from "astro/content/config";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
+
+const blog = defineCollection({
+  loader: glob({ pattern: "*.mdx", base: "./src/content/blog" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.date(),
+  }),
+});
+```
+
+The `glob()` loader picks up every `.mdx` file in the directory, parses frontmatter, validates against the schema, and makes entries available via `getCollection("blog")`.
+
+## Rendering Posts
+
+The dynamic route at `src/pages/writings/[...slug].astro` uses:
+
+```
+getCollection("blog")  → generate static paths
+getEntry("blog", slug) → fetch a specific post
+render(post)           → get the Content component
+```
+
+`render()` returns `{ Content, headings }` where `Content` is an Astro component you drop directly into your template:
+
+```astro
+<div class="prose prose-sm">
+  <Content />
+</div>
+```
+
+## Why This Approach
+
+No database, no CMS, no build-time API calls. Writing a post is just creating a file. The content layer handles type validation at build time, so a missing `title` field is caught before deployment.
+
+Zero JavaScript on the client — just static HTML and CSS.

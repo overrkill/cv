@@ -1,0 +1,23 @@
+---
+title: "Rwote: A Chrome Extension for Research Notes"
+description: "Building a side-panel note-taking extension with Chrome MV3, Supabase Auth, and a companion Next.js web app."
+date: 2026-02-20
+---
+
+## The Problem
+
+I take a lot of notes while researching online. Existing solutions either required switching tabs or didn't persist context between sessions.
+
+## Architecture
+
+Rwote uses Chrome's MV3 side panel API for the extension, and a Next.js web app for full history and search. Both share a Supabase backend.
+
+Key decisions:
+
+- **Side panel** over popup — stays open while you browse
+- **Supabase Auth** with Google OAuth — same session across extension and web
+- **Optimistic updates** — notes save instantly, sync in background
+
+## What I'd Do Differently
+
+Offline support. Currently requires internet for sync. A local-first approach with IndexedDB and background sync would be more robust.

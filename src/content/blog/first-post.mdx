@@ -1,0 +1,26 @@
+---
+title: "Building a Habit Tracker API with Raw SQL"
+description: "Why I chose raw PostgreSQL over an ORM, and what I learned about schema design, indexing, and JWT auth along the way."
+date: 2026-03-15
+---
+
+## Why Raw SQL
+
+Most tutorials reach for an ORM. I wanted to understand every query hitting the database.
+
+This project uses raw `pg` driver with deliberate schema design — composite indexes, JSONB for flexible fields, and cached streak calculations.
+
+## Schema Design
+
+The core tables:
+
+- `users` — standard auth fields, plus a `refresh_tokens` array
+- `habits` — name, frequency (JSONB), optional reminder time
+- `habit_logs` — one row per completion, indexed on `(habit_id, date)`
+- `streaks` — cached denormalized data, recalculated on log insert
+
+Composite indexes on `habit_logs(habit_id, date)` make range queries fast.
+
+## Auth Flow
+
+Access tokens (15 min) + refresh tokens (7 days) with rotation. All tokens are httpOnly cookies — no client-side storage.
